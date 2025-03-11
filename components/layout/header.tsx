@@ -115,7 +115,7 @@ export default function Header() {
               `}
             >
               {item.name}
-              {clickedLink === item.href && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />}
+              {/* {clickedLink === item.href && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />} */}
             </button>
           ))}
 
@@ -142,7 +142,7 @@ export default function Header() {
                     }`}
                   >
                     {dept.name}
-                    {clickedLink === dept.href && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />}
+                    {/* {clickedLink === dept.href && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />} */}
                   </button>
                 </DropdownMenuItem>
               ))}
@@ -153,11 +153,11 @@ export default function Header() {
         <div className="hidden md:flex gap-4">
           <Button variant="outline" className="shadow-sm" onClick={() => handleNavigation("/login")}>
             Login
-            {clickedLink === "/login" && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />}
+            {/* {clickedLink === "/login" && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />} */}
           </Button>
           <Button className="shadow-sm" onClick={() => handleNavigation("/register")}>
             Register
-            {clickedLink === "/register" && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />}
+            {/* {clickedLink === "/register" && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />} */}
           </Button>
         </div>
       </div>
@@ -200,7 +200,8 @@ export default function Header() {
                 >
                   <span>{item.name}</span>
                   {clickedLink === item.href ? (
-                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                    // <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                    <></>
                   ) : (
                     isActive(item.href) && <ChevronRight className="h-4 w-4 text-primary" />
                   )}
@@ -239,7 +240,7 @@ export default function Header() {
                       }`}
                     >
                       <span>{dept.name}</span>
-                      {clickedLink === dept.href && <Loader2 className="h-3 w-3 animate-spin text-primary" />}
+                      {/* {clickedLink === dept.href && <Loader2 className="h-3 w-3 animate-spin text-primary" />} */}
                     </button>
                   ))}
                 </div>
@@ -251,11 +252,11 @@ export default function Header() {
             <div className="flex gap-3">
               <Button variant="outline" className="flex-1 py-1.5" onClick={() => handleNavigation("/login")}>
                 Login
-                {clickedLink === "/login" && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />}
+                {/* {clickedLink === "/login" && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />} */}
               </Button>
               <Button className="flex-1 py-1.5" onClick={() => handleNavigation("/register")}>
                 Register
-                {clickedLink === "/register" && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />}
+                {/* {clickedLink === "/register" && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />} */}
               </Button>
             </div>
           </div>
