@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { ChevronDown, ChevronRight, Loader2, Menu, X } from "lucide-react"
+import { ChevronDown, ChevronRight, Menu, X } from "lucide-react"
 
 const departments = [
   { name: "Hematology", href: "/departments/hematology" },
@@ -31,7 +31,6 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [expandedItems, setExpandedItems] = useState<string[]>(["Departments"])
-  const [clickedLink, setClickedLink] = useState<string | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,16 +73,13 @@ export default function Header() {
   }
 
   const handleNavigation = (href: string) => {
-    setClickedLink(href)
-    setTimeout(() => {
-      router.push(href)
-    }, 100)
+    router.push(href)
   }
 
   return (
     <header
       className={`sticky top-0 z-30 w-full transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-md" : "bg-white/80 backdrop-blur-md"
+        isScrolled ? "bg-white shadow-md" : "bg-white shadow-sm"
       }`}
     >
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
@@ -115,7 +111,6 @@ export default function Header() {
               `}
             >
               {item.name}
-              {/* {clickedLink === item.href && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />} */}
             </button>
           ))}
 
@@ -142,7 +137,6 @@ export default function Header() {
                     }`}
                   >
                     {dept.name}
-                    {/* {clickedLink === dept.href && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />} */}
                   </button>
                 </DropdownMenuItem>
               ))}
@@ -153,16 +147,14 @@ export default function Header() {
         <div className="hidden md:flex gap-4">
           <Button variant="outline" className="shadow-sm" onClick={() => handleNavigation("/login")}>
             Login
-            {/* {clickedLink === "/login" && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />} */}
           </Button>
           <Button className="shadow-sm" onClick={() => handleNavigation("/register")}>
             Register
-            {/* {clickedLink === "/register" && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />} */}
           </Button>
         </div>
       </div>
 
-      {/* Mobile sidebar */}
+      {/* Mobile sidebar overlay */}
       <div
         className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 md:hidden ${
           mobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -170,8 +162,9 @@ export default function Header() {
         onClick={() => setMobileMenuOpen(false)}
       ></div>
 
+      {/* Mobile sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 w-full bg-white z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed inset-y-0 left-0 w-full bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
           mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -199,12 +192,7 @@ export default function Header() {
                   }`}
                 >
                   <span>{item.name}</span>
-                  {clickedLink === item.href ? (
-                    // <Loader2 className="h-4 w-4 animate-spin text-primary" />
-                    <></>
-                  ) : (
-                    isActive(item.href) && <ChevronRight className="h-4 w-4 text-primary" />
-                  )}
+                  {isActive(item.href) && <ChevronRight className="h-4 w-4 text-primary" />}
                 </button>
               </div>
             ))}
@@ -240,7 +228,6 @@ export default function Header() {
                       }`}
                     >
                       <span>{dept.name}</span>
-                      {/* {clickedLink === dept.href && <Loader2 className="h-3 w-3 animate-spin text-primary" />} */}
                     </button>
                   ))}
                 </div>
@@ -252,11 +239,9 @@ export default function Header() {
             <div className="flex gap-3">
               <Button variant="outline" className="flex-1 py-1.5" onClick={() => handleNavigation("/login")}>
                 Login
-                {/* {clickedLink === "/login" && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />} */}
               </Button>
               <Button className="flex-1 py-1.5" onClick={() => handleNavigation("/register")}>
                 Register
-                {/* {clickedLink === "/register" && <Loader2 className="ml-1 h-3 w-3 animate-spin text-primary" />} */}
               </Button>
             </div>
           </div>

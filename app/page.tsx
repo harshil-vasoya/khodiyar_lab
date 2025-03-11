@@ -353,9 +353,11 @@ export default function LandingPage() {
                   <Clock className="h-5 w-5 text-blue-500" />
                   <CardTitle>Basic Health Check</CardTitle>
                 </div>
-                <div className="flex items-baseline">
-                  <span className="text-3xl font-bold">₹1,499</span>
-                  <span className="ml-2 text-sm text-gray-500 line-through">₹1,999</span>
+                <div className="mb-4">
+                  <p className="text-3xl font-bold">₹1,499</p>
+                  <p className="text-muted-foreground">
+                    <s>₹1,999</s> (25% off)
+                  </p>
                 </div>
                 <CardDescription>Essential health screening for individuals of all ages</CardDescription>
               </CardHeader>
@@ -394,9 +396,11 @@ export default function LandingPage() {
                   <Award className="h-5 w-5 text-primary" />
                   <CardTitle>Comprehensive Health Check</CardTitle>
                 </div>
-                <div className="flex items-baseline">
-                  <span className="text-3xl font-bold">₹3,499</span>
-                  <span className="ml-2 text-sm text-gray-500 line-through">₹4,299</span>
+                <div className="mb-4">
+                  <p className="text-3xl font-bold">₹2,999</p>
+                  <p className="text-muted-foreground">
+                    <s>₹3,999</s> (25% off)
+                  </p>
                 </div>
                 <CardDescription>Thorough health assessment with advanced diagnostics</CardDescription>
               </CardHeader>
@@ -432,9 +436,11 @@ export default function LandingPage() {
                   <ShieldCheck className="h-5 w-5 text-purple-500" />
                   <CardTitle>Executive Health Check</CardTitle>
                 </div>
-                <div className="flex items-baseline">
-                  <span className="text-3xl font-bold">₹5,999</span>
-                  <span className="ml-2 text-sm text-gray-500 line-through">₹7,499</span>
+                <div className="mb-4">
+                  <p className="text-3xl font-bold">₹4,999</p>
+                  <p className="text-muted-foreground">
+                    <s>₹6,999</s> (28% off)
+                  </p>
                 </div>
                 <CardDescription>Premium health assessment with comprehensive diagnostics</CardDescription>
               </CardHeader>

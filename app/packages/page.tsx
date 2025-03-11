@@ -1,330 +1,429 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Check, Star, Award, Clock, Shield, Heart, Activity } from "lucide-react"
-
-export const metadata = {
-  title: "Health Packages | Khodiyar Pathology",
-  description: "Comprehensive health check-up packages for preventive care and early detection of health issues.",
-}
-
-const packages = [
-  {
-    id: "basic",
-    name: "Basic Health Check",
-    price: "₹1,499",
-    originalPrice: "₹1,999",
-    description: "Essential health screening for individuals of all ages",
-    popular: false,
-    tests: [
-      "Complete Blood Count (CBC)",
-      "Blood Sugar - Fasting",
-      "Lipid Profile",
-      "Liver Function Test",
-      "Kidney Function Test",
-      "Urine Routine Examination",
-      "Chest X-Ray (if required)",
-      "ECG (if required)",
-    ],
-    benefits: ["Free doctor consultation", "Same day reports", "Home sample collection"],
-    recommended: "Recommended for adults aged 18-40 years for routine health monitoring",
-    color: "bg-blue-50",
-    icon: Clock,
-  },
-  {
-    id: "comprehensive",
-    name: "Comprehensive Health Check",
-    price: "₹3,499",
-    originalPrice: "₹4,299",
-    description: "Thorough health assessment with advanced diagnostics",
-    popular: true,
-    tests: [
-      "All tests in Basic Health Check",
-      "HbA1c (Glycated Hemoglobin)",
-      "Thyroid Profile (T3, T4, TSH)",
-      "Vitamin D, B12 & Folate",
-      "Iron Studies",
-      "Calcium & Phosphorus",
-      "Uric Acid",
-      "Hepatitis B & C Screening",
-      "Ultrasound Abdomen",
-    ],
-    benefits: [
-      "Free specialist consultation",
-      "Diet consultation",
-      "Digital reports with interpretation",
-      "Home sample collection",
-    ],
-    recommended: "Ideal for adults aged 40+ or those with family history of chronic diseases",
-    color: "bg-emerald-50",
-    icon: Award,
-  },
-  {
-    id: "executive",
-    name: "Executive Health Check",
-    price: "₹5,999",
-    originalPrice: "₹7,499",
-    description: "Premium health assessment with comprehensive diagnostics",
-    popular: false,
-    tests: [
-      "All tests in Comprehensive Health Check",
-      "Tumor Markers (PSA for men, CA-125 for women)",
-      "Cardiac Risk Markers",
-      "Allergy Profile",
-      "Hormone Profile",
-      "Vitamin & Mineral Profile",
-      "Heavy Metal Screening",
-      "2D Echo",
-      "Stress Test",
-      "Bone Density Scan",
-    ],
-    benefits: [
-      "Priority appointment with specialists",
-      "Personalized health report",
-      "Follow-up consultation",
-      "Annual health planning",
-      "Premium lounge access",
-      "Home sample collection",
-    ],
-    recommended: "Perfect for executives and seniors who require thorough health monitoring",
-    color: "bg-purple-50",
-    icon: Shield,
-  },
-]
-
-const specializedPackages = [
-  {
-    id: "cardiac",
-    name: "Cardiac Health Package",
-    price: "₹4,299",
-    description: "Comprehensive assessment of heart health",
-    tests: [
-      "Lipid Profile",
-      "ECG",
-      "2D Echocardiography",
-      "Stress Test",
-      "Homocysteine",
-      "hs-CRP",
-      "Apolipoprotein A & B",
-      "BNP",
-      "Cardiac Risk Assessment",
-    ],
-    icon: Heart,
-    color: "bg-red-50",
-  },
-  {
-    id: "diabetes",
-    name: "Diabetes Care Package",
-    price: "₹2,999",
-    description: "Complete diabetes screening and monitoring",
-    tests: [
-      "Fasting & Post Prandial Blood Sugar",
-      "HbA1c",
-      "Insulin Levels",
-      "C-Peptide",
-      "Kidney Function Test",
-      "Microalbuminuria",
-      "Lipid Profile",
-      "Fundus Examination",
-      "Diabetic Neuropathy Assessment",
-    ],
-    icon: Activity,
-    color: "bg-amber-50",
-  },
-]
+import { Check, Clock, Heart, Shield, Star, Users } from "lucide-react"
 
 export default function PackagesPage() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                Health Packages
-              </h1>
-              <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
-                Comprehensive health check-up packages designed for early detection and prevention of diseases.
-              </p>
-            </div>
-            <div className="w-full max-w-sm space-y-2">
-              <p className="text-sm text-gray-500">
-                All packages include free home sample collection and doctor consultation
-              </p>
+      <section className="relative py-16 md:py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent" />
+        <div className="container relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">Health Packages for Every Need</h1>
+            <p className="text-lg md:text-xl text-muted-foreground mb-8">
+              Comprehensive health checkups designed by experts to keep you and your family healthy
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button size="lg" asChild>
+                <Link href="#packages">View Packages</Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/contact">Contact Us</Link>
+              </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Main Packages */}
-      <section className="w-full py-12 md:py-24 bg-white">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-3">
-            {packages.map((pkg) => (
-              <Card
-                key={pkg.id}
-                className={`relative overflow-hidden border-2 transition-all hover:shadow-lg ${
-                  pkg.popular ? "border-primary" : "border-border"
-                }`}
-              >
-                {pkg.popular && (
-                  <div className="absolute right-0 top-0">
-                    <div className="bg-primary text-primary-foreground px-3 py-1 text-xs font-medium">Most Popular</div>
+      {/* Main Packages Section */}
+      <section id="packages" className="py-16 bg-gray-50">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Our Health Packages</h2>
+            <p className="text-muted-foreground">
+              Choose from our range of comprehensive health packages designed for different age groups and health needs
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Basic Health Package */}
+            <Card className="border-t-4 border-t-blue-500 shadow-sm hover:shadow-md transition-shadow">
+              <CardHeader>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle className="text-xl">Basic Health Package</CardTitle>
+                    <CardDescription>Essential health screening</CardDescription>
                   </div>
-                )}
-                <CardHeader className={`${pkg.color} pb-8`}>
-                  <div className="mb-2 flex items-center space-x-2">
-                    <pkg.icon className="h-5 w-5 text-primary" />
-                    <CardTitle>{pkg.name}</CardTitle>
+                  <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Popular</div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-4">
+                  <p className="text-3xl font-bold">₹1,499</p>
+                  <p className="text-muted-foreground">
+                    <s>₹1,999</s> (25% off)
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-medium">Includes:</h4>
+                  <ul className="space-y-1">
+                    {[
+                      "Complete Blood Count (CBC)",
+                      "Liver Function Test",
+                      "Kidney Function Test",
+                      "Blood Sugar (Fasting)",
+                      "Lipid Profile",
+                      "Urine Routine",
+                      "Thyroid Profile (TSH)",
+                      "Doctor Consultation",
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" asChild>
+                  <Link href="/book-appointment">Book Now</Link>
+                </Button>
+              </CardFooter>
+            </Card>
+
+            {/* Comprehensive Health Package */}
+            <Card className="border-t-4 border-t-primary shadow-sm hover:shadow-md transition-shadow">
+              <CardHeader>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle className="text-xl">Comprehensive Package</CardTitle>
+                    <CardDescription>Complete health assessment</CardDescription>
                   </div>
-                  <div className="flex items-baseline">
-                    <span className="text-3xl font-bold">{pkg.price}</span>
-                    {pkg.originalPrice && (
-                      <span className="ml-2 text-sm text-gray-500 line-through">{pkg.originalPrice}</span>
-                    )}
+                  <div className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
+                    Recommended
                   </div>
-                  <CardDescription className="mt-2">{pkg.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="mb-2 text-sm font-medium">Included Tests</h3>
-                      <ul className="space-y-2">
-                        {pkg.tests.map((test, index) => (
-                          <li key={index} className="flex items-start">
-                            <Check className="mr-2 h-4 w-4 text-primary" />
-                            <span className="text-sm">{test}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="mb-2 text-sm font-medium">Benefits</h3>
-                      <ul className="space-y-2">
-                        {pkg.benefits.map((benefit, index) => (
-                          <li key={index} className="flex items-start">
-                            <Star className="mr-2 h-4 w-4 text-yellow-400" />
-                            <span className="text-sm">{benefit}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="rounded-md bg-gray-50 p-3">
-                      <p className="text-xs text-gray-600">{pkg.recommended}</p>
-                    </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-4">
+                  <p className="text-3xl font-bold">₹2,999</p>
+                  <p className="text-muted-foreground">
+                    <s>₹3,999</s> (25% off)
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-medium">Includes:</h4>
+                  <ul className="space-y-1">
+                    {[
+                      "All tests in Basic Package",
+                      "HbA1c (Diabetes)",
+                      "Vitamin B12 & D3",
+                      "Thyroid Profile (Complete)",
+                      "Chest X-Ray",
+                      "ECG",
+                      "Ultrasound Abdomen",
+                      "Detailed Doctor Consultation",
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" asChild>
+                  <Link href="/book-appointment">Book Now</Link>
+                </Button>
+              </CardFooter>
+            </Card>
+
+            {/* Premium Health Package */}
+            <Card className="border-t-4 border-t-purple-500 shadow-sm hover:shadow-md transition-shadow">
+              <CardHeader>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle className="text-xl">Premium Package</CardTitle>
+                    <CardDescription>Executive health screening</CardDescription>
                   </div>
-                </CardContent>
-                <CardFooter className="bg-gray-50 px-6 py-4">
-                  <Link href="/book-appointment" className="w-full">
-                    <Button className="w-full">Book Now</Button>
-                  </Link>
-                </CardFooter>
-              </Card>
-            ))}
+                  <div className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
+                    Complete
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-4">
+                  <p className="text-3xl font-bold">₹4,999</p>
+                  <p className="text-muted-foreground">
+                    <s>₹6,999</s> (28% off)
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-medium">Includes:</h4>
+                  <ul className="space-y-1">
+                    {[
+                      "All tests in Comprehensive Package",
+                      "Tumor Markers",
+                      "Hormonal Assay",
+                      "Bone Density Scan",
+                      "Stress Test (TMT)",
+                      "Pulmonary Function Test",
+                      "Nutritionist Consultation",
+                      "Follow-up Doctor Consultation",
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" asChild>
+                  <Link href="/book-appointment">Book Now</Link>
+                </Button>
+              </CardFooter>
+            </Card>
           </div>
         </div>
       </section>
 
       {/* Specialized Packages */}
-      <section className="w-full py-12 md:py-24 bg-gray-50">
-        <div className="container px-4 md:px-6">
-          <div className="mb-10 text-center">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Specialized Health Packages</h2>
-            <p className="mx-auto mt-4 max-w-[700px] text-gray-500">
-              Targeted health packages designed for specific health concerns and conditions
+      <section className="py-16">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Specialized Health Packages</h2>
+            <p className="text-muted-foreground">
+              Targeted health checkups for specific health concerns and conditions
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            {specializedPackages.map((pkg) => (
-              <Card key={pkg.id} className="overflow-hidden transition-all hover:shadow-lg">
-                <CardHeader className={`${pkg.color} pb-6`}>
-                  <div className="mb-2 flex items-center space-x-2">
-                    <pkg.icon className="h-5 w-5 text-primary" />
-                    <CardTitle>{pkg.name}</CardTitle>
-                  </div>
-                  <div className="flex items-baseline">
-                    <span className="text-2xl font-bold">{pkg.price}</span>
-                  </div>
-                  <CardDescription className="mt-2">{pkg.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <div>
-                    <h3 className="mb-2 text-sm font-medium">Included Tests</h3>
-                    <ul className="space-y-2">
-                      {pkg.tests.map((test, index) => (
-                        <li key={index} className="flex items-start">
-                          <Check className="mr-2 h-4 w-4 text-primary" />
-                          <span className="text-sm">{test}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </CardContent>
-                <CardFooter className="bg-gray-50 px-6 py-4">
-                  <Link href="/book-appointment" className="w-full">
-                    <Button className="w-full">Book Now</Button>
-                  </Link>
-                </CardFooter>
-              </Card>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Cardiac Health Package */}
+            <Card className="border-t-4 border-t-red-500 shadow-sm hover:shadow-md transition-shadow">
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Heart className="h-5 w-5 text-red-500" />
+                  <CardTitle>Cardiac Health Package</CardTitle>
+                </div>
+                <CardDescription>Comprehensive heart health assessment</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-4">
+                  <p className="text-2xl font-bold">₹3,499</p>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-medium">Key Tests:</h4>
+                  <ul className="space-y-1">
+                    {[
+                      "Lipid Profile",
+                      "ECG",
+                      "2D Echocardiogram",
+                      "Stress Test (TMT)",
+                      "Homocysteine",
+                      "hs-CRP",
+                      "Cardiologist Consultation",
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" asChild>
+                  <Link href="/book-appointment">Book Now</Link>
+                </Button>
+              </CardFooter>
+            </Card>
+
+            {/* Diabetes Care Package */}
+            <Card className="border-t-4 border-t-blue-500 shadow-sm hover:shadow-md transition-shadow">
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-blue-500" />
+                  <CardTitle>Diabetes Care Package</CardTitle>
+                </div>
+                <CardDescription>Complete diabetes screening and management</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-4">
+                  <p className="text-2xl font-bold">₹2,999</p>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-medium">Key Tests:</h4>
+                  <ul className="space-y-1">
+                    {[
+                      "Fasting & PP Blood Sugar",
+                      "HbA1c",
+                      "Insulin Levels",
+                      "Kidney Function Test",
+                      "Microalbuminuria",
+                      "Fundus Examination",
+                      "Diabetologist Consultation",
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" asChild>
+                  <Link href="/book-appointment">Book Now</Link>
+                </Button>
+              </CardFooter>
+            </Card>
+
+            {/* Women's Health Package */}
+            <Card className="border-t-4 border-t-pink-500 shadow-sm hover:shadow-md transition-shadow">
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Shield className="h-5 w-5 text-pink-500" />
+                  <CardTitle>Women's Health Package</CardTitle>
+                </div>
+                <CardDescription>Comprehensive women's wellness screening</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-4">
+                  <p className="text-2xl font-bold">₹3,299</p>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-medium">Key Tests:</h4>
+                  <ul className="space-y-1">
+                    {[
+                      "Complete Blood Count",
+                      "Thyroid Profile",
+                      "Vitamin D & B12",
+                      "Pap Smear",
+                      "Mammography",
+                      "Pelvic Ultrasound",
+                      "Gynecologist Consultation",
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" asChild>
+                  <Link href="/book-appointment">Book Now</Link>
+                </Button>
+              </CardFooter>
+            </Card>
           </div>
         </div>
       </section>
 
       {/* Corporate Packages */}
-      <section className="w-full py-12 md:py-24 bg-white">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <Badge variant="outline" className="text-primary border-primary">
-                  For Organizations
-                </Badge>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Corporate Health Packages</h2>
-                <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed">
-                  Customized health check-up packages for your employees with special corporate rates
-                </p>
-              </div>
-              <ul className="space-y-2">
-                <li className="flex items-start">
-                  <Check className="mr-2 h-5 w-5 text-primary" />
-                  <span>Customized packages based on employee demographics</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="mr-2 h-5 w-5 text-primary" />
-                  <span>On-site sample collection at your office</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="mr-2 h-5 w-5 text-primary" />
-                  <span>Bulk discounts for organizations</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="mr-2 h-5 w-5 text-primary" />
-                  <span>Health awareness sessions for employees</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="mr-2 h-5 w-5 text-primary" />
-                  <span>Detailed analytics and health insights for HR</span>
-                </li>
-              </ul>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Link href="/contact">
-                  <Button size="lg" className="w-full min-[400px]:w-auto">
-                    Contact for Corporate Rates
-                  </Button>
-                </Link>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <div className="relative h-[350px] w-full sm:h-[400px] lg:h-[500px]">
-                <img
-                  src="/placeholder.svg?height=500&width=700"
-                  alt="Corporate Health Packages"
-                  className="mx-auto h-full w-full object-cover rounded-lg shadow-xl"
-                />
+      <section className="py-16 bg-gray-50">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Corporate Health Packages</h2>
+            <p className="text-muted-foreground">
+              Customized health packages for organizations to ensure employee wellbeing
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <Card className="shadow-sm hover:shadow-md transition-shadow">
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Users className="h-5 w-5 text-primary" />
+                  <CardTitle>Corporate Health Program</CardTitle>
+                </div>
+                <CardDescription>Comprehensive employee wellness solution</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-medium mb-2">Program Features:</h4>
+                    <ul className="space-y-1">
+                      {[
+                        "Customized health packages based on employee demographics",
+                        "On-site sample collection at your office",
+                        "Digital reports with secure access",
+                        "Health education sessions and webinars",
+                        "Dedicated account manager",
+                        "Detailed analytics and insights",
+                      ].map((item, i) => (
+                        <li key={i} className="flex items-start">
+                          <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-medium mb-2">Benefits:</h4>
+                    <ul className="space-y-1">
+                      {[
+                        "Reduced healthcare costs",
+                        "Decreased absenteeism",
+                        "Improved employee productivity",
+                        "Enhanced employee satisfaction",
+                        "Customized pricing based on headcount",
+                      ].map((item, i) => (
+                        <li key={i} className="flex items-start">
+                          <Star className="h-5 w-5 text-yellow-500 mr-2 shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" asChild>
+                  <Link href="/contact">Contact for Custom Quote</Link>
+                </Button>
+              </CardFooter>
+            </Card>
+
+            <div className="bg-primary/10 rounded-lg p-8">
+              <h3 className="text-xl font-bold mb-4">Why Choose Our Corporate Health Program?</h3>
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <div className="bg-white p-4 rounded-lg shadow-sm flex items-center justify-center">
+                    <Shield className="h-8 w-8 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium mb-1">Trusted Expertise</h4>
+                    <p className="text-muted-foreground">
+                      Our team of healthcare professionals ensures accurate diagnostics and reliable results.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="bg-white p-4 rounded-lg shadow-sm flex items-center justify-center">
+                    <Clock className="h-8 w-8 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium mb-1">Time-Efficient</h4>
+                    <p className="text-muted-foreground">
+                      Minimize downtime with our efficient on-site collection and quick turnaround times.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="bg-white p-4 rounded-lg shadow-sm flex items-center justify-center">
+                    <Users className="h-8 w-8 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium mb-1">Customizable Solutions</h4>
+                    <p className="text-muted-foreground">
+                      Tailor health packages to match your organization's specific needs and budget.
+                    </p>
+                  </div>
+                </div>
+
+                <Button variant="outline" className="w-full" asChild>
+                  <Link href="/contact">Request a Demo</Link>
+                </Button>
               </div>
             </div>
           </div>
@@ -332,79 +431,67 @@ export default function PackagesPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="w-full py-12 md:py-24 bg-gray-50">
-        <div className="container px-4 md:px-6">
-          <div className="mx-auto max-w-[800px] space-y-12">
-            <div className="space-y-4 text-center">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Frequently Asked Questions</h2>
-              <p className="text-gray-500 md:text-xl">Find answers to common questions about our health packages</p>
-            </div>
-            <div className="grid gap-4 md:gap-8">
-              <div className="space-y-2">
-                <h3 className="text-xl font-bold">How do I prepare for my health check-up?</h3>
-                <p className="text-gray-500">
-                  Most health packages require 8-12 hours of fasting before the test. You should avoid alcohol for 24
-                  hours and heavy meals the night before. Our team will provide you with specific instructions when you
-                  book your appointment.
-                </p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-xl font-bold">How long does it take to get the results?</h3>
-                <p className="text-gray-500">
-                  Basic test results are available within 24 hours. Comprehensive and specialized packages may take
-                  48-72 hours. You can access your reports online through our patient portal or mobile app.
-                </p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-xl font-bold">Can I customize my health package?</h3>
-                <p className="text-gray-500">
-                  Yes, we offer customization options for all our health packages. You can add or remove specific tests
-                  based on your requirements. Please contact our customer service for personalized packages.
-                </p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-xl font-bold">Is home sample collection available for all packages?</h3>
-                <p className="text-gray-500">
-                  Yes, we offer free home sample collection for all our health packages within city limits. For
-                  locations outside the city, a nominal fee may apply.
-                </p>
-              </div>
-            </div>
+      <section className="py-16">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Frequently Asked Questions</h2>
+            <p className="text-muted-foreground">Find answers to common questions about our health packages</p>
+          </div>
+
+          <div className="max-w-3xl mx-auto space-y-6">
+            {[
+              {
+                question: "How do I prepare for my health checkup?",
+                answer:
+                  "For most packages, you'll need to fast for 8-12 hours before the appointment. Drink plenty of water and avoid alcohol for 24 hours before the test. Specific instructions will be provided when you book your appointment.",
+              },
+              {
+                question: "How long does the health checkup take?",
+                answer:
+                  "Basic packages typically take 1-2 hours, while comprehensive and premium packages may take 3-4 hours. The exact duration depends on the specific tests included in your package.",
+              },
+              {
+                question: "When will I receive my test results?",
+                answer:
+                  "Most test results are available within 24-48 hours. You'll receive a notification when your reports are ready, and you can access them through our secure patient portal or mobile app.",
+              },
+              {
+                question: "Can I customize my health package?",
+                answer:
+                  "Yes, we offer customization options for all our health packages. You can add or remove specific tests based on your requirements. Contact our customer service team for assistance with customization.",
+              },
+              {
+                question: "Do you offer home sample collection?",
+                answer:
+                  "Yes, we offer home sample collection services for most of our health packages at an additional nominal fee. You can schedule a home visit while booking your appointment.",
+              },
+            ].map((faq, i) => (
+              <Card key={i} className="shadow-sm">
+                <CardHeader>
+                  <CardTitle className="text-lg">{faq.question}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p>{faq.answer}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="w-full py-12 md:py-24 bg-primary text-primary-foreground">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Take charge of your health today
-              </h2>
-              <p className="mx-auto max-w-[700px] text-primary-foreground/80 md:text-xl">
-                Prevention is better than cure. Book your health check-up now and stay ahead of potential health issues.
-              </p>
-            </div>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Link href="/book-appointment">
-                <Button
-                  size="lg"
-                  className="w-full min-[400px]:w-auto bg-white text-primary hover:bg-white/90"
-                  variant="outline"
-                >
-                  Book an Appointment
-                </Button>
-              </Link>
-              <Link href="/contact">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="w-full min-[400px]:w-auto border-primary-foreground text-primary-foreground hover:bg-primary-foreground/20"
-                >
-                  Contact Us
-                </Button>
-              </Link>
+      <section className="py-16 bg-primary/10">
+        <div className="container">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Take the First Step Towards Better Health</h2>
+            <p className="text-lg mb-8">Invest in your health today with our comprehensive health packages</p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button size="lg" asChild>
+                <Link href="/book-appointment">Book a Health Package</Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/contact">Contact for More Information</Link>
+              </Button>
             </div>
           </div>
         </div>
