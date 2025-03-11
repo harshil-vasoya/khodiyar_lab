@@ -68,7 +68,7 @@ export default function LandingPage() {
             <div className="relative flex items-center justify-center">
               <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl"></div>
               <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl"></div>
-              <div className="relative h-[400px] w-full overflow-hidden rounded-2xl border bg-white shadow-xl sm:h-[450px] md:h-[500px]">
+              <div className="relative h-[500px] w-full overflow-hidden rounded-2xl border sm:h-[450px] md:h-[600px]">
                 <img
                   src="/placeholder.svg?height=500&width=500"
                   alt="Modern Laboratory Equipment"
