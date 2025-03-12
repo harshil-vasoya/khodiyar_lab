@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
+import { useSession, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { ChevronDown, ChevronRight, Menu, X } from "lucide-react"
+import { ChevronDown, ChevronRight, Menu, X, User, LogOut } from "lucide-react"
 
 const departments = [
   { name: "Hematology", href: "/departments/hematology" },
@@ -26,6 +27,9 @@ const navItems = [
 ]
 
 export default function Header() {
+  const { data: session, status } = useSession()
+  const isAuthenticated = status === "authenticated"
+
   const pathname = usePathname()
   const router = useRouter()
   const [isScrolled, setIsScrolled] = useState(false)
@@ -74,6 +78,10 @@ export default function Header() {
 
   const handleNavigation = (href: string) => {
     router.push(href)
+  }
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: "/" })
   }
 
   return (
@@ -145,12 +153,31 @@ export default function Header() {
         </nav>
 
         <div className="hidden md:flex gap-4">
-          <Button variant="outline" className="shadow-sm" onClick={() => handleNavigation("/login")}>
-            Login
-          </Button>
-          <Button className="shadow-sm" onClick={() => handleNavigation("/register")}>
-            Register
-          </Button>
+          {isAuthenticated ? (
+            <>
+              <Button variant="outline" className="shadow-sm" onClick={() => handleNavigation("/dashboard")}>
+                <User className="h-4 w-4 mr-2" />
+                Dashboard
+              </Button>
+              <Button
+                variant="outline"
+                className="shadow-sm text-red-500 hover:text-red-700 hover:bg-red-50"
+                onClick={handleLogout}
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="outline" className="shadow-sm" onClick={() => handleNavigation("/login")}>
+                Login
+              </Button>
+              <Button className="shadow-sm" onClick={() => handleNavigation("/register")}>
+                Register
+              </Button>
+            </>
+          )}
         </div>
       </div>
 
@@ -233,16 +260,42 @@ export default function Header() {
                 </div>
               </div>
             </div>
+
+            {isAuthenticated && (
+              <div className="border-b border-gray-100 py-1.5">
+                <button
+                  onClick={() => handleNavigation("/dashboard")}
+                  className={`flex items-center justify-between w-full text-left text-base font-medium py-1.5 ${
+                    isActive("/dashboard") ? "text-primary" : "text-gray-800"
+                  }`}
+                >
+                  <span>Dashboard</span>
+                  {isActive("/dashboard") && <ChevronRight className="h-4 w-4 text-primary" />}
+                </button>
+              </div>
+            )}
           </nav>
 
           <div className="p-4 border-t mt-auto">
             <div className="flex gap-3">
-              <Button variant="outline" className="flex-1 py-1.5" onClick={() => handleNavigation("/login")}>
-                Login
-              </Button>
-              <Button className="flex-1 py-1.5" onClick={() => handleNavigation("/register")}>
-                Register
-              </Button>
+              {isAuthenticated ? (
+                <Button
+                  className="flex-1 py-1.5 text-red-500 hover:text-red-700 bg-white border border-red-300 hover:bg-red-50"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+              ) : (
+                <>
+                  <Button variant="outline" className="flex-1 py-1.5" onClick={() => handleNavigation("/login")}>
+                    Login
+                  </Button>
+                  <Button className="flex-1 py-1.5" onClick={() => handleNavigation("/register")}>
+                    Register
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>

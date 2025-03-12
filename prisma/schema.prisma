@@ -1,0 +1,210 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id              Int           @id @default(autoincrement())
+  name            String
+  email           String        @unique
+  phone           String?
+  passwordHash    String        @map("password_hash")
+  address         String?
+  city            String?
+  state           String?
+  pincode         String?
+  dob             DateTime?
+  gender          String?
+  registeredDate  DateTime      @default(now()) @map("registered_date")
+  lastActive      DateTime?     @map("last_active")
+  status          String        @default("active")
+  referralPoints  Int           @default(0) @map("referral_points")
+  
+  // Relations
+  appointments    Appointment[]
+  reports         Report[]
+  referralsGiven  Referral[]    @relation("ReferrerUser")
+  blogPosts       BlogPost[]
+  
+  @@map("users")
+}
+
+// Employee model
+model Employee {
+  id              Int           @id @default(autoincrement())
+  name            String
+  email           String        @unique
+  phone           String?
+  passwordHash    String        @map("password_hash")
+  address         String?
+  city            String?
+  state           String?
+  pincode         String?
+  dob             DateTime?
+  gender          String?
+  employeeId      String        @unique @map("employee_id")
+  joinDate        DateTime      @map("join_date")
+  departmentId    Int           @map("department_id")
+  role            String
+  status          String        @default("active")
+  reportsTo       Int?          @map("reports_to")
+  performance     String?
+  
+  // Relations
+  department      Department    @relation(fields: [departmentId], references: [id])
+  supervisor      Employee?     @relation("EmployeeToEmployee", fields: [reportsTo], references: [id])
+  subordinates    Employee[]    @relation("EmployeeToEmployee")
+  appointments    Appointment[]
+  reports         Report[]
+  
+  @@map("employees")
+}
+
+// Appointment model
+model Appointment {
+  id              Int           @id @default(autoincrement())
+  userId          Int           @map("user_id")
+  serviceId       Int           @map("service_id")
+  employeeId      Int?          @map("employee_id")
+  appointmentDate DateTime      @map("appointment_date")
+  status          String        @default("scheduled")
+  location        String?
+  amount          Decimal       @db.Decimal(10, 2)
+  paymentStatus   String        @default("pending") @map("payment_status")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  
+  // Relations
+  user            User          @relation(fields: [userId], references: [id])
+  service         Service       @relation(fields: [serviceId], references: [id])
+  employee        Employee?     @relation(fields: [employeeId], references: [id])
+  reports         Report[]
+  
+  @@map("appointments")
+}
+
+// Report model
+model Report {
+  id              Int           @id @default(autoincrement())
+  userId          Int           @map("user_id")
+  appointmentId   Int?          @map("appointment_id")
+  employeeId      Int?          @map("employee_id")
+  testType        String        @map("test_type")
+  testDate        DateTime      @map("test_date")
+  status          String        @default("pending")
+  notes           String?       @db.Text
+  filePath        String?       @map("file_path")
+  referralPoints  Int?          @map("referral_points")
+  uploadedAt      DateTime      @default(now()) @map("uploaded_at")
+  
+  // Relations
+  user            User          @relation(fields: [userId], references: [id])
+  appointment     Appointment?  @relation(fields: [appointmentId], references: [id])
+  employee        Employee?     @relation(fields: [employeeId], references: [id])
+  
+  @@map("reports")
+}
+
+// Service model
+model Service {
+  id              Int               @id @default(autoincrement())
+  name            String
+  description     String?           @db.Text
+  price           Decimal           @db.Decimal(10, 2)
+  departmentId    Int               @map("department_id")
+  duration        Int               @default(30) // in minutes
+  homeCollection  Boolean           @default(false) @map("home_collection")
+  active          Boolean           @default(true)
+  
+  // Relations
+  department      Department        @relation(fields: [departmentId], references: [id])
+  appointments    Appointment[]
+  packageServices PackageService[]
+  
+  @@map("services")
+}
+
+// Package model
+model Package {
+  id              Int               @id @default(autoincrement())
+  name            String
+  description     String?           @db.Text
+  price           Decimal           @db.Decimal(10, 2)
+  discount        Decimal           @default(0) @db.Decimal(10, 2)
+  active          Boolean           @default(true)
+  
+  // Relations
+  packageServices PackageService[]
+  
+  @@map("packages")
+}
+
+// PackageService model (junction table)
+model PackageService {
+  id              Int           @id @default(autoincrement())
+  packageId       Int           @map("package_id")
+  serviceId       Int           @map("service_id")
+  
+  // Relations
+  package         Package       @relation(fields: [packageId], references: [id])
+  service         Service       @relation(fields: [serviceId], references: [id])
+  
+  @@unique([packageId, serviceId])
+  @@map("package_services")
+}
+
+// Department model
+model Department {
+  id              Int           @id @default(autoincrement())
+  name            String
+  description     String?       @db.Text
+  image           String?
+  active          Boolean       @default(true)
+  
+  // Relations
+  employees       Employee[]
+  services        Service[]
+  
+  @@map("departments")
+}
+
+// Referral model
+model Referral {
+  id              Int           @id @default(autoincrement())
+  referrerId      Int           @map("referrer_id")
+  referredEmail   String        @map("referred_email")
+  referredPhone   String?       @map("referred_phone")
+  status          String        @default("pending")
+  pointsAwarded   Int?          @default(0) @map("points_awarded")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  
+  // Relations
+  referrer        User          @relation("ReferrerUser", fields: [referrerId], references: [id])
+  
+  @@map("referrals")
+}
+
+// BlogPost model
+model BlogPost {
+  id              Int           @id @default(autoincrement())
+  title           String
+  content         String        @db.Text
+  image           String?
+  category        String
+  authorId        Int           @map("author_id")
+  publishedAt     DateTime      @default(now()) @map("published_at")
+  active          Boolean       @default(true)
+  
+  // Relations
+  author          User          @relation(fields: [authorId], references: [id])
+  
+  @@map("blog_posts")
+}
+

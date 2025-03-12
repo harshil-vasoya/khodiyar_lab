@@ -3,39 +3,146 @@
 import type React from "react"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Phone, User, Mail } from "lucide-react"
+import { Phone, User, Mail, Loader2, AlertCircle } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
 export default function RegisterPage() {
+  const router = useRouter()
+  const { toast } = useToast()
   const [step, setStep] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
+  const [passwordError, setPasswordError] = useState("")
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     otp: "",
+    password: "",
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+
+    // Clear password error when user types
+    if (name === "password") {
+      setPasswordError("")
+    }
   }
 
-  const handleSendOtp = (e: React.FormEvent) => {
-    e.preventDefault()
-    // In a real app, you would call an API to send OTP via WhatsApp
-    console.log("Sending OTP to", formData.phone)
-    setStep(2)
+  const validatePassword = (password: string) => {
+    if (password.length < 8) {
+      return "Password must be at least 8 characters long"
+    }
+    if (!/[A-Z]/.test(password)) {
+      return "Password must contain at least one capital letter"
+    }
+    if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) {
+      return "Password must contain at least one special character"
+    }
+    return ""
   }
 
-  const handleVerifyOtp = (e: React.FormEvent) => {
+  const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault()
-    // In a real app, you would verify the OTP with your backend
-    console.log("Verifying OTP", formData.otp)
-    // Redirect to dashboard on success
+
+    // Validate password
+    const passwordValidationError = validatePassword(formData.password)
+    if (passwordValidationError) {
+      setPasswordError(passwordValidationError)
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      // Check if email already exists
+      const emailCheckResponse = await fetch(`/api/users/check-email?email=${formData.email}`)
+      const emailCheckData = await emailCheckResponse.json()
+
+      if (emailCheckData.exists) {
+        toast({
+          title: "Email already registered",
+          description: "This email is already registered. Please login instead.",
+          variant: "destructive",
+        })
+        return
+      }
+
+      // In a real app, you would call an API to send OTP via WhatsApp
+      console.log("Sending OTP to", formData.phone)
+
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      setStep(2)
+      toast({
+        title: "OTP Sent",
+        description: `A verification code has been sent to ${formData.phone}`,
+      })
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send OTP. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+
+    try {
+      // In a real app, you would verify the OTP with your backend
+      console.log("Verifying OTP", formData.otp)
+
+      // Simulate API call for OTP verification
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      // Register the user
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+        }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.message || "Failed to register")
+      }
+
+      toast({
+        title: "Registration Successful",
+        description: "Your account has been created successfully. Please login.",
+      })
+
+      // Redirect to login page
+      router.push("/login")
+    } catch (error) {
+      toast({
+        title: "Registration Failed",
+        description: error instanceof Error ? error.message : "Failed to register. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -107,8 +214,36 @@ export default function RegisterPage() {
                     />
                   </div>
                 </div>
-                <Button type="submit" className="w-full">
-                  Continue
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Create a password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                  />
+                  {passwordError && (
+                    <div className="flex items-center text-sm text-destructive mt-1">
+                      <AlertCircle className="h-4 w-4 mr-1" />
+                      {passwordError}
+                    </div>
+                  )}
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Password must be at least 8 characters with one capital letter and one special character.
+                  </p>
+                </div>
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    "Continue"
+                  )}
                 </Button>
               </form>
             ) : (
@@ -124,10 +259,17 @@ export default function RegisterPage() {
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  Verify & Register
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Verifying...
+                    </>
+                  ) : (
+                    "Verify & Register"
+                  )}
                 </Button>
-                <Button type="button" variant="link" className="w-full" onClick={() => setStep(1)}>
+                <Button type="button" variant="link" className="w-full" onClick={() => setStep(1)} disabled={isLoading}>
                   Change Details
                 </Button>
               </form>

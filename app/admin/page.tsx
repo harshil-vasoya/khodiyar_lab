@@ -1,8 +1,106 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, FileText, Users, TrendingUp, ArrowUpRight, ArrowDownRight, Activity } from "lucide-react"
+import { Calendar, FileText, Users, TrendingUp, ArrowUpRight, ArrowDownRight, Activity, Loader2 } from "lucide-react"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
 
 export default function AdminDashboard() {
+  const { data: session, status } = useSession()
+  const router = useRouter()
+  const [analytics, setAnalytics] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    // Redirect if not authenticated or not admin
+    if (status === "unauthenticated") {
+      router.push("/login?callbackUrl=/admin")
+    } else if (status === "authenticated" && session?.user?.role !== "admin") {
+      router.push("/dashboard")
+    }
+  }, [status, session, router])
+
+  const fetchAnalytics = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+
+      const response = await fetch("/api/admin/analytics")
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || "Failed to fetch analytics data")
+      }
+
+      const data = await response.json()
+
+      // Ensure the data has the expected structure
+      const defaultData = {
+        counts: {
+          users: 0,
+          employees: 0,
+          appointments: 0,
+          reports: 0,
+          revenue: 0,
+        },
+        recentAppointments: [],
+        appointmentsByStatus: [],
+        reportsByStatus: [],
+        monthlyAppointments: Array(12).fill(0),
+      }
+
+      setAnalytics({
+        ...defaultData,
+        ...data,
+        counts: {
+          ...defaultData.counts,
+          ...(data.counts || {}),
+        },
+      })
+    } catch (err: any) {
+      console.error("Analytics error:", err)
+      setError(err.message || "Error loading dashboard data. Please try again.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (status === "authenticated" && session?.user?.role === "admin") {
+      fetchAnalytics()
+    }
+  }, [status, session])
+
+  if (status === "loading" || loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh]">
+        <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
+        <p className="text-muted-foreground">Loading dashboard data...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-4">
+        <Alert variant="destructive">
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+        <Button onClick={fetchAnalytics}>Retry</Button>
+      </div>
+    )
+  }
+
+  if (!analytics) {
+    return null
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
@@ -19,7 +117,7 @@ export default function AdminDashboard() {
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1,248</div>
+            <div className="text-2xl font-bold">{analytics.counts.appointments.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
               <span className="text-green-500 flex items-center">
                 <ArrowUpRight className="h-3 w-3" />
@@ -35,7 +133,7 @@ export default function AdminDashboard() {
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">3,427</div>
+            <div className="text-2xl font-bold">{analytics.counts.reports.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
               <span className="text-green-500 flex items-center">
                 <ArrowUpRight className="h-3 w-3" />
@@ -51,7 +149,7 @@ export default function AdminDashboard() {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">573</div>
+            <div className="text-2xl font-bold">{analytics.counts.users.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
               <span className="text-green-500 flex items-center">
                 <ArrowUpRight className="h-3 w-3" />
@@ -67,7 +165,7 @@ export default function AdminDashboard() {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹1,24,500</div>
+            <div className="text-2xl font-bold">₹{analytics.counts.revenue.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
               <span className="text-red-500 flex items-center">
                 <ArrowDownRight className="h-3 w-3" />
@@ -97,6 +195,9 @@ export default function AdminDashboard() {
                   <div className="flex flex-col items-center gap-2 text-muted-foreground">
                     <Activity className="h-8 w-8" />
                     <span>Appointment Chart Visualization</span>
+                    <p className="text-xs text-center max-w-md">
+                      Monthly data: {analytics.monthlyAppointments?.join(", ") || "No data available"}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -107,22 +208,30 @@ export default function AdminDashboard() {
                 <CardDescription>Latest actions in the system</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div key={i} className="flex items-center gap-4">
-                      <div className="w-2 h-2 rounded-full bg-primary"></div>
-                      <div className="flex-1 space-y-1">
-                        <p className="text-sm font-medium leading-none">
-                          {i % 2 === 0 ? "New appointment created" : "Report uploaded"}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {i % 2 === 0 ? "User ID: 12345" : "Employee ID: E789"}
-                        </p>
+                {analytics.recentAppointments && analytics.recentAppointments.length > 0 ? (
+                  <div className="space-y-4">
+                    {analytics.recentAppointments.map((appointment: any, i: number) => (
+                      <div key={i} className="flex items-center gap-4">
+                        <div className="w-2 h-2 rounded-full bg-primary"></div>
+                        <div className="flex-1 space-y-1">
+                          <p className="text-sm font-medium leading-none">New appointment created</p>
+                          <p className="text-xs text-muted-foreground">
+                            ID: {appointment._id?.toString().substring(0, 8) || "N/A"}
+                          </p>
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {appointment.appointmentDate
+                            ? new Date(appointment.appointmentDate).toLocaleDateString()
+                            : "N/A"}
+                        </div>
                       </div>
-                      <div className="text-xs text-muted-foreground">{i * 10} min ago</div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-40 text-muted-foreground">
+                    <p>No recent appointments</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -138,6 +247,11 @@ export default function AdminDashboard() {
                 <div className="flex flex-col items-center gap-2 text-muted-foreground">
                   <Activity className="h-8 w-8" />
                   <span>Analytics Visualization</span>
+                  <p className="text-xs text-center max-w-md">
+                    {analytics.appointmentsByStatus && analytics.appointmentsByStatus.length > 0
+                      ? `Status breakdown: ${JSON.stringify(analytics.appointmentsByStatus)}`
+                      : "No appointment status data available"}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -154,6 +268,11 @@ export default function AdminDashboard() {
                 <div className="flex flex-col items-center gap-2 text-muted-foreground">
                   <Activity className="h-8 w-8" />
                   <span>Reports Visualization</span>
+                  <p className="text-xs text-center max-w-md">
+                    {analytics.reportsByStatus && analytics.reportsByStatus.length > 0
+                      ? `Status breakdown: ${JSON.stringify(analytics.reportsByStatus)}`
+                      : "No report status data available"}
+                  </p>
                 </div>
               </div>
             </CardContent>

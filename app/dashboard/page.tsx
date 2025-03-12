@@ -2,11 +2,24 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, FileText, Share2, User, Bell, Clock, TrendingUp, Activity, ChevronRight, Plus } from "lucide-react"
+import {
+  Calendar,
+  FileText,
+  Share2,
+  User,
+  Bell,
+  Clock,
+  TrendingUp,
+  Activity,
+  ChevronRight,
+  Plus,
+  LogOut,
+} from "lucide-react"
 import UserAppointments from "@/components/user/user-appointments"
 import UserReports from "@/components/user/user-reports"
 import UserReferrals from "@/components/user/user-referrals"
@@ -47,6 +60,10 @@ export default function UserDashboard() {
     },
   ]
 
+  const handleLogout = () => {
+    signOut({ callbackUrl: "/" })
+  }
+
   return (
     <div className="container py-8">
       {/* Welcome Section */}
@@ -64,6 +81,15 @@ export default function UserDashboard() {
               Notifications
               <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0">3</Badge>
             </Button>
+            {/* <Button
+              variant="outline"
+              size="sm"
+              onClick={handleLogout}
+              className="text-red-500 hover:text-red-700 hover:bg-red-50"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Logout
+            </Button> */}
             <Link href="/book-appointment">
               <Button size="sm">
                 <Plus className="h-4 w-4 mr-2" />
@@ -74,6 +100,7 @@ export default function UserDashboard() {
         </div>
       </div>
 
+      {/* Rest of the dashboard code remains the same */}
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <Card>

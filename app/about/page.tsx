@@ -22,7 +22,7 @@ export default function AboutPage() {
             <div className="flex items-center justify-center">
               <div className="relative h-[350px] w-full sm:h-[400px] lg:h-[500px]">
                 <img
-                  src="/placeholder.svg?height=500&width=700"
+                  src="/sub_header_4.svg"
                   alt="Khodiyar Pathology Team"
                   className="mx-auto h-full w-full object-cover rounded-lg shadow-xl"
                 />

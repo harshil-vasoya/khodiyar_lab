@@ -1,15 +1,14 @@
 import type React from "react"
-import { Inter } from "next/font/google"
+import { AuthProvider } from "../providers/auth-provider"
 import "./globals.css"
+import ClientLayout from "./ClientLayout"
+import { ToastProvider } from "../providers/toast-provider"
 
-const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "Khodiyar Pathology",
   description: "Advanced diagnostics for better health",
 }
-
-import ClientLayout from "./ClientLayout"
 
 export default function RootLayout({
   children,
@@ -18,8 +17,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <ClientLayout>{children}</ClientLayout>
+      <body>
+        <AuthProvider>
+          <ClientLayout>{children}
+          <ToastProvider />
+          </ClientLayout>
+          </AuthProvider>
       </body>
     </html>
   )

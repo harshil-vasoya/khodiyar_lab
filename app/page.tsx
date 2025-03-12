@@ -239,33 +239,33 @@ export default function LandingPage() {
             <div className="relative order-2 lg:order-1">
               <div className="absolute -left-4 top-1/4 h-64 w-64 rounded-full bg-primary/10 blur-3xl"></div>
               <div className="relative grid grid-cols-2 gap-4">
-                <div className="grid gap-4">
+                {/* <div className="grid gap-4">
                   <div className="overflow-hidden rounded-lg">
                     <img
-                      src="/placeholder.svg?height=300&width=300"
+                      src="/sub_header_2.svg"
                       alt="Modern Laboratory Equipment"
                       className="h-full w-full object-cover"
                     />
                   </div>
                   <div className="overflow-hidden rounded-lg">
                     <img
-                      src="/placeholder.svg?height=300&width=300"
+                      src="/sub_header_3.svg"
                       alt="Patient Care"
                       className="h-full w-full object-cover"
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className="grid gap-4">
                   <div className="overflow-hidden rounded-lg">
                     <img
-                      src="/placeholder.svg?height=300&width=300"
+                      src="/sub_header_3.svg"
                       alt="Advanced Technology"
                       className="h-full w-full object-cover"
                     />
                   </div>
                   <div className="overflow-hidden rounded-lg">
                     <img
-                      src="/placeholder.svg?height=300&width=300"
+                      src="/sub_header_5.svg"
                       alt="Professional Staff"
                       className="h-full w-full object-cover"
                     />
