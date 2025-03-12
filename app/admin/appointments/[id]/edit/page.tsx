@@ -14,14 +14,12 @@ import { DatePicker } from "@/components/ui/date-picker"
 import { toast } from "@/components/ui/use-toast"
 import { parseISO } from "date-fns"
 
-interface AppointmentEditPageProps {
-  params: {
-    id: string
-  }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
-export default function AppointmentEditPage({ params }: AppointmentEditPageProps) {
+// Remove the interface entirely to avoid type conflicts
+export default function AppointmentEditPage({
+  params,
+}: {
+  params: { id: string }
+}) {
   const appointmentId = params.id
 
   const router = useRouter()
