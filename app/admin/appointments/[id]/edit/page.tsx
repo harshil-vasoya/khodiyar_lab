@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import type React from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -17,12 +18,11 @@ interface AppointmentEditPageProps {
   params: {
     id: string
   }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 export default function AppointmentEditPage({ params }: AppointmentEditPageProps) {
-  // Unwrap params using React.use()
-  const unwrappedParams = React.use(params as any)
-  const appointmentId = unwrappedParams.id
+  const appointmentId = params.id
 
   const router = useRouter()
   const [loading, setLoading] = useState(true)
