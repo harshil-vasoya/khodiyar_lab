@@ -24,7 +24,7 @@ export default function AboutPage() {
                 <img
                   src="/sub_header_4.svg"
                   alt="Khodiyar Pathology Team"
-                  className="mx-auto h-full w-full object-cover rounded-lg shadow-xl"
+                  className="mx-auto h-full w-full object-cover rounded-lg"
                 />
               </div>
             </div>

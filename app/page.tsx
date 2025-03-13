@@ -68,7 +68,7 @@ export default function LandingPage() {
             <div className="relative flex items-center justify-center">
               <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl"></div>
               <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl"></div>
-              <div className="relative h-[500px] w-full overflow-hidden rounded-2xl border sm:h-[450px] md:h-[600px]">
+              <div className="relative h-[500px] w-full overflow-hidden rounded-2xl sm:h-[450px] md:h-[600px]">
                 <img
                   src="/placeholder.svg?height=500&width=500"
                   alt="Modern Laboratory Equipment"
@@ -238,23 +238,23 @@ export default function LandingPage() {
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
             <div className="relative order-2 lg:order-1">
               <div className="absolute -left-4 top-1/4 h-64 w-64 rounded-full bg-primary/10 blur-3xl"></div>
-              <div className="relative grid grid-cols-2 gap-4">
-                {/* <div className="grid gap-4">
+              {/* <div className="relative grid grid-cols-2 gap-4">
+                <div className="grid gap-4">
                   <div className="overflow-hidden rounded-lg">
                     <img
-                      src="/sub_header_2.svg"
+                      src="/sub_header_9.svg"
                       alt="Modern Laboratory Equipment"
                       className="h-full w-full object-cover"
                     />
                   </div>
                   <div className="overflow-hidden rounded-lg">
                     <img
-                      src="/sub_header_3.svg"
+                      src="/sub_header_7.svg"
                       alt="Patient Care"
                       className="h-full w-full object-cover"
                     />
                   </div>
-                </div> */}
+                </div>
                 <div className="grid gap-4">
                   <div className="overflow-hidden rounded-lg">
                     <img
@@ -271,7 +271,12 @@ export default function LandingPage() {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
+              <img
+                src="/sub_header_10.svg"
+                alt="Modern Laboratory Equipment"
+                className="h-full w-full object-cover rounded-lg "
+              />
             </div>
             <div className="flex flex-col justify-center space-y-6 order-1 lg:order-2">
               <Badge className="w-fit bg-primary/10 text-primary">Why Choose Us</Badge>
