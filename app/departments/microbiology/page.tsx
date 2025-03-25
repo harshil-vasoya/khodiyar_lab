@@ -172,28 +172,18 @@ export default function MicrobiologyPage() {
                 title: "Automated Culture Systems",
                 description:
                   "Advanced systems for rapid and accurate cultivation and identification of microorganisms.",
-                image: "/placeholder.svg?height=200&width=300&text=Culture+Systems",
               },
               {
                 title: "PCR Machines",
                 description:
                   "Sophisticated equipment for detecting and identifying microorganisms at the molecular level.",
-                image: "/placeholder.svg?height=200&width=300&text=PCR+Machines",
               },
               {
                 title: "MALDI-TOF Mass Spectrometry",
                 description: "Cutting-edge technology for rapid and accurate identification of microorganisms.",
-                image: "/placeholder.svg?height=200&width=300&text=MALDI-TOF",
               },
             ].map((equipment, index) => (
-              <Card key={index} className="overflow-hidden transition-all hover:shadow-lg">
-                <div className="aspect-video w-full overflow-hidden">
-                  <img
-                    src={equipment.image || "/placeholder.svg"}
-                    alt={equipment.title}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+              <Card key={index} className="transition-all hover:shadow-lg">
                 <CardHeader>
                   <CardTitle>{equipment.title}</CardTitle>
                 </CardHeader>

@@ -32,7 +32,7 @@ export default function ClinicalPathologyPage() {
             <div className="flex items-center justify-center">
               <div className="relative h-[350px] w-full">
                 <img
-                  src="/placeholder.svg?height=350&width=600&text=Clinical+Pathology+Team"
+                  src="/clinicalPathology.svg"
                   alt="Clinical Pathology Team"
                   className="mx-auto h-full w-full object-cover rounded-lg shadow-xl"
                 />
@@ -175,28 +175,18 @@ export default function ClinicalPathologyPage() {
               {
                 title: "Advanced Microscopes",
                 description: "High-resolution microscopes for detailed examination of body fluids and tissues.",
-                image: "/placeholder.svg?height=200&width=300&text=Advanced+Microscopes",
               },
               {
                 title: "Automated Urinalysis Systems",
                 description: "Sophisticated systems that provide rapid and accurate analysis of urine samples.",
-                image: "/placeholder.svg?height=200&width=300&text=Urinalysis+Systems",
               },
               {
                 title: "Digital Imaging Systems",
                 description:
                   "Advanced imaging systems for capturing and analyzing microscopic images of body fluids and tissues.",
-                image: "/placeholder.svg?height=200&width=300&text=Digital+Imaging",
               },
             ].map((equipment, index) => (
-              <Card key={index} className="overflow-hidden transition-all hover:shadow-lg">
-                <div className="aspect-video w-full overflow-hidden">
-                  <img
-                    src={equipment.image || "/placeholder.svg"}
-                    alt={equipment.title}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+              <Card key={index} className="transition-all hover:shadow-lg">
                 <CardHeader>
                   <CardTitle>{equipment.title}</CardTitle>
                 </CardHeader>
@@ -209,7 +199,7 @@ export default function ClinicalPathologyPage() {
         </div>
       </section>
 
-      <section className="w-full py-12 md:py-24 bg-white">
+      {/* <section className="w-full py-12 md:py-24 bg-white">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
@@ -255,7 +245,7 @@ export default function ClinicalPathologyPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
     </DepartmentLayout>
   )
 }

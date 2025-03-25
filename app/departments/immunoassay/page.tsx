@@ -29,7 +29,7 @@ export default function ImmunoassayPage() {
             <div className="flex items-center justify-center">
               <div className="relative h-[350px] w-full">
                 <img
-                  src="/placeholder.svg?height=350&width=600&text=Immunoassay+Technology"
+                  src="/immunoassay.svg"
                   alt="Immunoassay Technology"
                   className="mx-auto h-full w-full object-cover rounded-lg shadow-xl"
                 />
@@ -171,29 +171,19 @@ export default function ImmunoassayPage() {
                 title: "ELISA (Enzyme-Linked Immunosorbent Assay)",
                 description:
                   "A plate-based assay technique designed for detecting and quantifying substances such as peptides, proteins, antibodies, and hormones.",
-                image: "/placeholder.svg?height=200&width=300&text=ELISA",
               },
               {
                 title: "Chemiluminescence Immunoassay",
                 description:
                   "A highly sensitive technique that uses light emission to detect and quantify various substances in the blood.",
-                image: "/placeholder.svg?height=200&width=300&text=Chemiluminescence",
               },
               {
                 title: "Fluorescence Immunoassay",
                 description:
                   "A technique that uses fluorescent compounds to detect and quantify various substances with high sensitivity.",
-                image: "/placeholder.svg?height=200&width=300&text=Fluorescence",
               },
             ].map((technology, index) => (
-              <Card key={index} className="overflow-hidden transition-all hover:shadow-lg">
-                <div className="aspect-video w-full overflow-hidden">
-                  <img
-                    src={technology.image || "/placeholder.svg"}
-                    alt={technology.title}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+              <Card key={index} className="transition-all hover:shadow-lg">
                 <CardHeader>
                   <CardTitle>{technology.title}</CardTitle>
                 </CardHeader>
@@ -205,7 +195,7 @@ export default function ImmunoassayPage() {
           </div>
         </div>
       </section>
-
+      {/* 
       <section className="w-full py-12 md:py-24 bg-white">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -252,7 +242,7 @@ export default function ImmunoassayPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
     </DepartmentLayout>
   )
 }

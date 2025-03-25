@@ -28,12 +28,8 @@ export default function BiochemistryPage() {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <div className="relative h-[350px] w-full">
-                <img
-                  src="/placeholder.svg?height=350&width=600&text=Biochemistry+Team"
-                  alt="Biochemistry Team"
-                  className="mx-auto h-full w-full object-cover rounded-lg shadow-xl"
-                />
+              <div className="relative">
+                <img src="/biochemistry.svg" alt="Biochemistry Team" className="mx-auto object-cover rounded-lg" />
               </div>
             </div>
           </div>
@@ -172,29 +168,19 @@ export default function BiochemistryPage() {
                 title: "Automated Chemistry Analyzers",
                 description:
                   "Advanced analyzers that provide rapid and accurate results for a wide range of biochemical tests.",
-                image: "/placeholder.svg?height=200&width=300&text=Chemistry+Analyzer",
               },
               {
                 title: "Immunoassay Analyzers",
                 description:
                   "Sophisticated instruments used to measure hormone levels and other proteins with high sensitivity.",
-                image: "/placeholder.svg?height=200&width=300&text=Immunoassay+Analyzer",
               },
               {
                 title: "Electrolyte Analyzers",
                 description:
                   "Specialized equipment for measuring electrolytes like sodium, potassium, and chloride in blood and other fluids.",
-                image: "/placeholder.svg?height=200&width=300&text=Electrolyte+Analyzer",
               },
             ].map((equipment, index) => (
-              <Card key={index} className="overflow-hidden transition-all hover:shadow-lg">
-                <div className="aspect-video w-full overflow-hidden">
-                  <img
-                    src={equipment.image || "/placeholder.svg"}
-                    alt={equipment.title}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+              <Card key={index} className="transition-all hover:shadow-lg">
                 <CardHeader>
                   <CardTitle>{equipment.title}</CardTitle>
                 </CardHeader>
@@ -207,7 +193,7 @@ export default function BiochemistryPage() {
         </div>
       </section>
 
-      <section className="w-full py-12 md:py-24 bg-white">
+      {/* <section className="w-full py-12 md:py-24 bg-white">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
@@ -253,7 +239,7 @@ export default function BiochemistryPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
     </DepartmentLayout>
   )
 }
